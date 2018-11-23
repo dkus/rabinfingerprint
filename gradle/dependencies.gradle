@@ -1,0 +1,12 @@
+ext {
+    versions=[
+            guava: "16.0.1",
+            junit: "4.11"
+    ]
+
+    libs=[
+            guava: "com.google.guava:guava:$versions.guava",
+            junit: "junit:junit:$versions.junit"
+    ]
+}
+

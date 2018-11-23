@@ -1,0 +1,13 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        jcenter()
+    }
+}
+
+rootProject.name = "rabinfingerprint"
+include "rabinfingerprint-core"
+include "handprint-core"
+include "rabinfingerprint-cli"
+
+enableFeaturePreview("STABLE_PUBLISHING")

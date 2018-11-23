@@ -8,6 +8,38 @@ Optimized for use on a stream including a sliding window fingerprint.
 Includes arbitrary-precision-polynomial hashing as well as very fast long-based hashing implementations, which are best for most hashing uses.
 
 ### Generating a fingerprint ###
+
+You can generate fingerprint via:
+- fingerprint library (`rabinfingerprint-core` or `handprint-core`)
+- fingerprint runnable application (`rabinfingerprint-cli`, see Command line section)
+ 
+Add dependency to your project using Maven:
+```xml
+<dependencies>
+  <dependency>
+    <groupId>org.rabinfingerprint</groupId>
+    <artifactId>rabinfingerprint-core</artifactId>
+    <version>1.0</version>
+  </dependency>
+  <!-- guava library is needed in examples due to usage of ByteStreams -->
+  <dependency>
+    <groupId>com.google.guava</groupId>
+    <artifactId>guava</artifactId>
+    <version>16.0.1</version>
+  </dependency>
+</dependencies>
+```
+
+To add a dependency using Gradle:
+
+```gradle
+dependencies {
+  implementation 'org.rabinfingerprint:rabinfingerprint-core:1.0'
+  // guava library is needed in examples due to usage of ByteStreams
+  implementation 'com.google.guava:guava:16.0.1'
+}
+```
+Basic example:
 ```Java
 // Create new random irreducible polynomial
 // These can also be created from Longs or hex Strings
@@ -23,7 +55,7 @@ rabin.pushBytes(ByteStreams.toByteArray(new FileInputStream("file.test")));
 System.out.println(Long.toString(rabin.getFingerprintLong(), 16));
 ```
 
-### Generating a sliding-window fingerprint ###
+Example of generating a sliding-window fingerprint:
 ```Java
 // Create new random irreducible polynomial
 // These can also be created from Longs or hex Strings
@@ -39,32 +71,41 @@ for (byte b : ByteStreams.toByteArray(new FileInputStream("file.test"))) {
 }
 ```
 
-### Building ###
-
-This project uses Maven for dependency management. To build this project's runnable jar, sources and javadoc, run this command:
-
-```
-% mvn clean install
-```
-
 ### Command line ###
 
-[Full Usage](https://github.com/themadcreator/rabinfingerprint/blob/master/src/main/resources/usage.txt)
+[Full Usage](rabinfingerprint-cli/src/main/resources/usage.txt)
 
 Generate a new irreducible polynomial
 ```
-% java -jar rabinfingerprint.jar -polygen 53
+% ./bin/rabinfingerprint-cli -polygen 53
 3DE9DD57CA448B
 ```
 
 Fingerprint a file
 ```
-% java -jar rabinfingerprint.jar -p 3DE9DD57CA448B file.test
+% ./bin/rabinfingerprint-cli -p 3DE9DD57CA448B file.test
 43A39C59491F /[path to file]/file.test
 ```
 
 Fingerprint STDIN
 ```
-% cat file.test | java -jar rabinfingerprint.jar -p 3DE9DD57CA448B
+% cat file.test | ./bin/rabinfingerprint-cli -p 3DE9DD57CA448B
 43A39C59491F
+```
+
+### Building ###
+
+This project uses Gradle for dependency management. 
+To build this project's runnable jar, library jars with sources and javadoc, run this command:
+
+```
+% ./gradlew clean build
+```
+
+### Releasing ###
+
+Project artifacts are released via [Gradle Bintray Plugin](https://github.com/bintray/gradle-bintray-plugin)
+
+```
+./gradlew -PreleaseVersion=<version> -PbintrayUser=<user> -PbintrayApiKey=<api key> -PbintrayPassphrase=<optional passphrase> clean build bintrayUpload
 ```

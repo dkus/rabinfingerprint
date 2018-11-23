@@ -1,0 +1,44 @@
+plugins {
+    id "com.jfrog.bintray" version "1.8.4" apply false
+}
+
+subprojects {
+    group="org.rabinfingerprint"
+    version=rootProject.findProperty("releaseVersion") ?: "1.0.0-SNAPSHOT"
+
+    apply plugin: "java"
+    apply plugin: project.name.endsWith("cli") ? "application" : "java-library"
+    apply from: "$rootProject.projectDir/gradle/dependencies.gradle"
+
+    repositories {
+        mavenLocal()
+        jcenter()
+        mavenCentral()
+    }
+
+    dependencies {
+        testImplementation libs.junit
+    }
+
+    test {
+        ignoreFailures true
+    }
+
+    javadoc {
+        if(JavaVersion.current().isJava9Compatible()) {
+            options.addBooleanOption("html4", true)
+        }
+    }
+
+    task sourcesJar(type: Jar) {
+        from sourceSets.main.allJava
+        classifier = "sources"
+    }
+
+    task javadocJar(type: Jar) {
+        from javadoc
+        classifier = "javadoc"
+    }
+    apply from: "$rootProject.projectDir/gradle/publish.gradle"
+    apply from: "$rootProject.projectDir/gradle/bintray.gradle"
+}

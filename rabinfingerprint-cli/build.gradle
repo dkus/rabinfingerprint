@@ -1,0 +1,19 @@
+apply plugin: "application"
+
+description = "A collision resistent fingerprinting application"
+
+dependencies {
+    implementation project(":rabinfingerprint-core")
+    implementation project(":handprint-core")
+    implementation libs.guava
+}
+
+distTar {
+    enabled = false
+}
+
+distZip {
+    classifier = "dist"
+}
+
+mainClassName="org.rabinfingerprint.Main"

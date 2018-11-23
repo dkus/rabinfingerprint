@@ -1,0 +1,8 @@
+apply plugin: "java-library"
+
+description = "A collision resistent handprinting method"
+
+dependencies {
+    api project(":rabinfingerprint-core")
+    api libs.guava
+}

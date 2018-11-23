@@ -1,0 +1,56 @@
+apply plugin: "maven-publish"
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            artifact project.tasks.sourcesJar
+            artifact project.tasks.javadocJar
+            if (project.tasks.findByName("distZip")) {
+                artifact project.tasks.distZip
+            }
+            pom {
+                name = "Rabin Fingerprint"
+                url = "https://github.com/themadcreator/rabinfingerprint"
+                inceptionYear = "2010"
+                description = "A collision resistent fingerprinting method"
+                licenses {
+                    license {
+                        name = "The Apache License, Version 2.0"
+                        url = "http://www.apache.org/licenses/LICENSE-2.0.txt"
+                    }
+                }
+                developers {
+                    developer {
+                        id = "themadcreator"
+                        name = "Bill Dwyer"
+                        email = "themadcreator@gmail.com"
+                        roles = ["creator", "developer"]
+                    }
+                    developer {
+                        id = "ianbrandt"
+                        name = "Ian Brandt"
+                        email = "ian@ianbrandt.com"
+                        organizationUrl = "http://ianbrandt.com/"
+                        roles = ["developer"]
+                        timezone = "-8"
+                    }
+                    developer {
+                        id = "dkus"
+                        name = "Davor Kus"
+                        email = "kusdavor@gmai.com"
+                        roles = ["developer"]
+                    }
+                }
+                scm {
+                    connection = "scm:git:git@github.com:themadcreator/rabinfingerprint.git"
+                    developerConnection = "scm:git:git@github.com:themadcreator/rabinfingerprint.git"
+                    url = "scm:git:git@github.com:themadcreator/rabinfingerprint.git"
+                }
+                issueManagement {
+                    url = "https://github.com/themadcreator/rabinfingerprint/issues"
+                }
+            }
+        }
+    }
+}
